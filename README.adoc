@@ -1,0 +1,49 @@
+= Introduction à LLVM : exemples
+Markus Lindström <markus@raincode.com>
+
+== Prérequis
+
+Ces exemples sont en C et nécessitent une installation de Clang, LLVM
+et de (GNU) Make. Ils devraient fonctionner même sur des versions plutôt
+anciennes.
+
+Votre machine doit également être compatible `x86_64` (alias `amd64`), ce qui
+est extrêmement probable en 2019 :)
+
+== Compilation
+
+Il vous suffit d'exécuter la commande{nbsp}:
+
+ make
+
+pour que tous les fichiers `.c` présents dans le dossier soient pris en
+charge. Les fichiers source C sont compilés en langage intermédiaire LLVM
+via Clang (fichiers `.ll`). Le langage d'assemblage résultant est produit
+dans des fichiers `.s` via l'utilitaire LLVM `llc` (_LLVM static compiler_).
+
+Pour nettoyer les fichiers générés, utiliser la commande suivante{nbsp}:
+
+ make clean
+
+Par défaut, le code compile en `x86` (alias `i386`). Pour compiler
+en 64 bits (et donc produire du langage d'assemblage 64 bits, différent de
+celui vu en première année), utiliser la commande suivante{nbsp}:
+
+ make BITS=64
+
+Pour chaque fichier source C, les fichiers suivants sont produits{nbsp}:
+
+[cols="1m,6"]
+|===
+| Fichier | Description
+
+| loop.c | Fichier source en C
+| loop.o0.ll | Fichier produit en langage intermédiaire LLVM, sans optimisations.
+| loop.o1.ll | Fichier produit en langage intermédiaire LLVM, avec optimisations légères (`-O1`)
+| loop.o2.ll | Fichier produit en langage intermédiaire LLVM, avec optimisations moyennes (`-O2`)
+| loop.o3.ll | Fichier produit en langage intermédiaire LLVM, avec optimisations maximales (`-O3`)
+| loop.o0.s | Fichier produit en langage d'assemblage, sans optimisations.
+| loop.o1.s | Fichier produit en langage d'assemblage, avec optimisations légères (`-O1`)
+| loop.o2.s | Fichier produit en langage d'assemblage, avec optimisations moyennes (`-O2`)
+| loop.o3.s | Fichier produit en langage d'assemblage, avec optimisations maximales (`-O3`)
+|===
